@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "800"] });
 
-const Navbar = ({ menu, setMenu }: any) => {
+const Navbar = ({ setMenu }: any) => {
   return (
-    <div className="pb-10 container mx-auto px-5 sm:px-10 py-5">
+    <div className="pb-10 py-5">
       <div className="flex items-center justify-between">
         <span
           onClick={() => setMenu(true)}

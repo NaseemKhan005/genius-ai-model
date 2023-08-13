@@ -12,9 +12,12 @@ import { RxDashboard } from "react-icons/rx";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Montserrat } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+
+const montserrat = Montserrat({ subsets: ["latin"], weight: ["600"] });
 
 const routes = [
   {
@@ -80,8 +83,8 @@ const Sidebar = ({ menu, setMenu }: any) => {
         href={"/"}
         className="flex items-center gap-2 w-8 h-8 relative pb-10 py-5"
       >
-        <Image src="/logo.png" alt="logo" width={25} height={25} />
-        <h2 className="text-xl font-bold">Genius</h2>
+        <Image src="/logo.png" alt="logo" width={20} height={20} />
+        <h2 className="font-bold">Genius</h2>
       </Link>
 
       <div className="flex flex-col gap-2">

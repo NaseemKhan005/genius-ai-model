@@ -50,7 +50,7 @@ const routes = [
 
 const DashboardPage = () => {
   return (
-    <div className="container md:px-10 px-5 mx-auto">
+    <div>
       {routes.map((route) => (
         <Link
           key={route.href}

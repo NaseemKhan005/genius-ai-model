@@ -28,8 +28,8 @@ const DashboardLoyout = ({ children }: { children: React.ReactNode }) => {
     <div className="realtive w-full h-full flex">
       <Sidebar menu={menu} setMenu={setMenu} />
 
-      <div className="w-full">
-        <Navbar menu={menu} setMenu={setMenu} />
+      <div className="w-full container md:px-10 px-5 mx-auto">
+        <Navbar setMenu={setMenu} />
         <div onClick={() => setMenu(false)}>{children}</div>
       </div>
 
