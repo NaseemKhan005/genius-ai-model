@@ -26,14 +26,21 @@ const DashboardLoyout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="realtive w-full h-full flex">
-      <Sidebar menu={menu} setMenu={setMenu} />
+      <div className="fixed top-0 left-0 z-[80]">
+        <Sidebar menu={menu} setMenu={setMenu} />
+      </div>
 
       <div className="w-full container md:px-10 px-5 mx-auto">
         <Navbar setMenu={setMenu} />
-        <div onClick={() => setMenu(false)}>{children}</div>
+        <div
+          onClick={() => setMenu(false)}
+          className="relative min-h-[80vh] sm:pl-[17rem]"
+        >
+          {children}
+        </div>
       </div>
 
-      <div className="absolute bottom-5 right-5 sm:right-10 bg-[#5f27cd] hover:bg-[#592db1] rounded-full active:scale-95 cursor-pointer pt-2 px-2 pb-[2px]">
+      <div className="fixed bottom-5 right-5 sm:right-10 bg-[#5f27cd] hover:bg-[#4e25a2] rounded-full active:scale-95 cursor-pointer pt-2 px-2 pb-[2px]">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>

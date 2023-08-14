@@ -6,24 +6,28 @@ import Typewriter from "typewriter-effect";
 import { useAuth } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
+import { ToggleMode } from "@/components/ToggleMode";
+
 import { Testimonials } from "./constants";
 
 export default function LandingPage() {
   const { isSignedIn } = useAuth();
 
   return (
-    <div className="text-white relative container mx-auto sm:px-10 px-5 py-5 bg-[#111827] w-full">
+    <div className="relative container mx-auto sm:px-10 px-5 py-5 dark:bg-[#111827] w-full">
       {/* navbar */}
       <div className="flex items-center justify-between">
         <Link href={"/"} className="flex items-center gap-2">
           <Image src="/logo.png" alt="logo" width={25} height={25} />
           <h2 className="text-xl font-bold">Genius</h2>
         </Link>
-        <Link href={isSignedIn ? "/dashboard" : "/sign-in"}>
-          <Button className="rounded-full bg-gradient-to-r from-indigo-600 to-pink-600 hover:bg-gradient-to-l">
-            Get Started
-          </Button>
-        </Link>
+
+        <div className="flex items-center gap-2">
+          <ToggleMode />
+          <Link href={isSignedIn ? "/dashboard" : "/sign-in"}>
+            <Button variant="gradients">Get Started</Button>
+          </Link>
+        </div>
       </div>
 
       {/* hero headings and buttons */}
@@ -48,13 +52,9 @@ export default function LandingPage() {
               />
             </div>
           </div>
-          <p className="text-gray-400">
-            Create content using AI 10x faster.
-          </p>
+          <p className="text-gray-400">Create content using AI 10x faster.</p>
           <Link href={isSignedIn ? "/dashboard" : "/sign-in"}>
-            <Button className="rounded-full bg-gradient-to-r from-indigo-700 to-pink-600 hover:bg-gradient-to-l">
-              Start Generating For Free
-            </Button>
+            <Button variant="gradients">Start Generating For Free</Button>
           </Link>
           <p className="text-gray-500 text-sm">No credit card required.</p>
         </div>
@@ -68,9 +68,12 @@ export default function LandingPage() {
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Testimonials.map(({ name, desc, desig }) => (
-            <div key={name} className="bg-[#161B2E] p-6 rounded-md">
+            <div
+              key={name}
+              className="dark:bg-[#161B2E] p-6 rounded-md border dark:border-0"
+            >
               <h2 className="text-base font-semibold">{name}</h2>
-              <span className="text-xs text-zinc-400 font-semibold">
+              <span className="text-xs text-muted-foreground dark:text-zinc-400 font-semibold">
                 {desig}
               </span>
               <p className="text-xs leading-relaxed mt-4">{desc}</p>

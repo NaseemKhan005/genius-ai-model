@@ -12,12 +12,9 @@ import { RxDashboard } from "react-icons/rx";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Montserrat } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-
-const montserrat = Montserrat({ subsets: ["latin"], weight: ["600"] });
 
 const routes = [
   {
@@ -30,30 +27,30 @@ const routes = [
     name: "Conversation",
     icon: <IoChatboxOutline />,
     href: "/conversation",
-    color: "text-purple-500",
+    color: "text-indigo-500",
   },
   {
     name: "Image Generation",
     icon: <IoImageOutline />,
-    href: "/image-generation",
+    href: "/image",
     color: "text-rose-500",
   },
   {
     name: "Video Generation",
     icon: <IoVideocamOutline />,
-    href: "/video-generation",
+    href: "/video",
     color: "text-orange-500",
   },
   {
     name: "Music Generation",
     icon: <IoMusicalNotesOutline />,
-    href: "/music-generation",
+    href: "/music",
     color: "text-emerald-500",
   },
   {
     name: "Code Generation",
     icon: <IoCode />,
-    href: "/code-generation",
+    href: "/code",
     color: "text-green-600",
   },
   {
@@ -69,19 +66,19 @@ const Sidebar = ({ menu, setMenu }: any) => {
   return (
     <div
       className={cn(
-        "w-64 sm:w-80 h-full bg-[#111827] text-white px-3 py-5 sm:relative sm:left-0 fixed top-0 transition-all duration-500",
+        "z-[100] w-64 sm:w-[17rem] h-screen bg-[#111827] dark:bg-[#161B2E] text-white px-3 py-5 sm:relative sm:left-0 fixed top-0 left-0 transition-all duration-500",
         menu === true ? "left-0" : "-left-full"
       )}
     >
       <span
         onClick={() => setMenu(false)}
-        className="text-xl absolute top-4 right-0 cursor-pointer block sm:hidden bg-white/10 hover:bg-[#0000006d] py-3 rounded-tl rounded-bl"
+        className="text-xl absolute top-2 right-0 cursor-pointer block sm:hidden bg-white/10 hover:bg-white/5 py-3 rounded-tl rounded-bl"
       >
         <MdOutlineKeyboardArrowLeft />
       </span>
       <Link
         href={"/"}
-        className="flex items-center gap-2 w-8 h-8 relative pb-10 py-5"
+        className="flex items-center gap-2 w-8 h-8 relative pl-3 pb-10 pt-3 md:pt-5"
       >
         <Image src="/logo.png" alt="logo" width={20} height={20} />
         <h2 className="font-bold">Genius</h2>
