@@ -11,7 +11,7 @@ const Navbar = ({ setMenu }: any) => {
     <div className="py-3 md:py-5 sm:pb-5 pb-8">
       <div className="flex items-center justify-between">
         <Button
-          variant="outline"
+          variant="ghost"
           size="icon"
           onClick={() => setMenu(true)}
           className="block sm:hidden"

@@ -105,7 +105,7 @@ const ConversationPage = () => {
               variant="secondary"
               size="icon"
               disabled={isLoading}
-              className="absolute top-1/2 -translate-y-1/2 right-2 text-indigo-600 bg-indigo-600/10 dark:text-white dark:bg-indigo-400/10 dark:hover:bg-indigo-400/5 hover:bg-indigo-600/5 text-lg"
+              className="absolute top-[.4rem] dark:top-2 right-2 text-indigo-600 bg-indigo-600/10 dark:text-white dark:bg-indigo-400/10 dark:hover:bg-indigo-400/5 hover:bg-indigo-600/5 text-lg"
             >
               <PiPaperPlaneRightFill />
             </Button>
@@ -121,7 +121,7 @@ const ConversationPage = () => {
             label="No Converstaion started."
           />
         )}
-        {isLoading && messages.length >= 0 && <Loader />}
+        {isLoading && <Loader />}
         <div className="flex flex-col gap-2">
           {messages.map((message) => (
             <div
