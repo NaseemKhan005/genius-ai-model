@@ -89,6 +89,7 @@ const Sidebar = ({ menu, setMenu }: any) => {
           <Link
             key={route.href}
             href={route.href}
+            onClick={() => setMenu(false)}
             className={cn(
               "flex items-center gap-2 rounded p-3 capitalize hover:bg-white/10",
               pathname === route.href ? "bg-white/10" : "text-zinc-400"

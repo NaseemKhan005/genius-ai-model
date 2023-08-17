@@ -7,7 +7,7 @@ import { IoCode } from "react-icons/io5";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChatCompletionRequestMessage } from "openai";
 import ReactMarkdown from "react-markdown";
 
@@ -15,6 +15,10 @@ import Heading from "@/components/Heading";
 import Empty from "@/components/Empty";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
+import UserAvatar from "@/components/UserAvatar";
+import BotAvatar from "@/components/BotAvatar";
+import CopyButton from "@/components/CopyButton";
+import DeleteChatButton from "@/components/DeleteChatButton";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -23,15 +27,25 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { cn } from "@/lib/utils";
 
 import { formSchema } from "./constants";
-import { cn } from "@/lib/utils";
-import UserAvatar from "@/components/UserAvatar";
-import BotAvatar from "@/components/BotAvatar";
 
 const CodePage = () => {
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const router = useRouter();
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+  useEffect(() => {
+    // Load messages from local storage when component mounts
+    const storedMessages = localStorage.getItem("code messages");
+    if (storedMessages) {
+      setMessages(JSON.parse(storedMessages));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save messages to local storage whenever messages change
+    localStorage.setItem("code messages", JSON.stringify(messages));
+  }, [messages]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,8 +81,8 @@ const CodePage = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className="pb-10">
+      <div className="flex items-center justify-between">
         <Heading
           title="Code Generation"
           desc="Generate code using descriptive text."
@@ -76,6 +90,7 @@ const CodePage = () => {
           iconColor="text-green-600"
           bgColor="bg-green-600/10"
         />
+        {messages.length > 0 && <DeleteChatButton setChat={setMessages} />}
       </div>
 
       <div>
@@ -83,6 +98,7 @@ const CodePage = () => {
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="relative mt-10 mb-5"
+            autoComplete="off"
           >
             <FormField
               control={form.control}
@@ -94,7 +110,7 @@ const CodePage = () => {
                       {...field}
                       disabled={isLoading}
                       placeholder="How to toggle light and dark theme in next js?"
-                      className="px-4 py-6 outline-none focus-visible:ring-0 focus-visible:ring-transparent rounded-md focus-visible:shadow-md focus-visible:border-transparent focus-visible:drop-shadow-sm dark:bg-[#161B2E] dark:border-0 dark:py-[1.6rem] dark:focus-within:ring-offset-0"
+                      className="px-4 pr-14 py-6 outline-none focus-visible:ring-0 focus-visible:ring-transparent rounded-md drop-shadow-md shadow-md border-transparent dark:bg-[#161B2E] dark:py-[1.6rem] dark:focus-within:ring-offset-0"
                     />
                   </FormControl>
                   <FormMessage />
@@ -128,7 +144,7 @@ const CodePage = () => {
             <div
               key={message.content}
               className={cn(
-                "w-full p-8 flex items-start gap-x-8 rounded-lg",
+                "w-full p-4 md:p-8 flex items-start gap-x-4 md:gap-x-8 rounded-lg relative",
                 message.role === "user" ? "" : "bg-muted dark:bg-[#161B2E]"
               )}
             >
@@ -137,18 +153,45 @@ const CodePage = () => {
               <ReactMarkdown
                 components={{
                   pre: ({ node, ...props }) => (
-                    <div className="w-full overflow-auto my-2 bg-black/10 p-2 rounded-lg">
+                    <div className="w-full overflow-auto code-scrollbar my-2 bg-black/10 dark:bg-[#222946] p-2 rounded-lg relative">
+                      <div className="w-full absolute right-2 lg:right-3 hover:bg-black/5">
+                        {message.role !== "user"
+                          ? message.content && (
+                              <CopyButton
+                                text={message.content}
+                                tooltipText1="Copy code"
+                                tooltipText2="Code copied!!"
+                                copyText1="Copy code"
+                                copyText2="Copied!"
+                              />
+                            )
+                          : ""}
+                      </div>
                       <pre {...props} />
                     </div>
                   ),
                   code: ({ node, ...props }) => (
-                    <code {...props} className="bg-black/10 rounded-lg p-1" />
+                    <code
+                      {...props}
+                      className="relative rounded-lg p-1 bg-[#D8DCE0] dark:bg-[#222946]"
+                    />
                   ),
                 }}
-                className="text-sm leading-7 overflow-hidden"
+                className="text-sm leading-7 overflow-hidden pt-1 pr-7 lg:pr-20"
               >
                 {message.content || ""}
               </ReactMarkdown>
+              <div className="w-full absolute right-2 lg:right-3">
+                {message.role !== "user"
+                  ? message.content && (
+                      <CopyButton
+                        text={message.content}
+                        tooltipText1="Copy"
+                        tooltipText2="copied!!"
+                      />
+                    )
+                  : ""}
+              </div>
             </div>
           ))}
         </div>

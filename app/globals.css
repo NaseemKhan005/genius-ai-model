@@ -80,3 +80,17 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+.code-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 4px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+  background: #404245a1;
+}

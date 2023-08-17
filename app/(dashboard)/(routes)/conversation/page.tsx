@@ -5,9 +5,10 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { IoChatboxOutline } from "react-icons/io5";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
+import { CgTrash } from "react-icons/cg";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChatCompletionRequestMessage } from "openai";
 
 import Heading from "@/components/Heading";
@@ -15,6 +16,9 @@ import Empty from "@/components/Empty";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import UserAvatar from "@/components/UserAvatar";
+import BotAvatar from "@/components/BotAvatar";
+import CopyButton from "@/components/CopyButton";
 import {
   Form,
   FormControl,
@@ -23,14 +27,26 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
-import { formSchema } from "./constants";
 import { cn } from "@/lib/utils";
-import UserAvatar from "@/components/UserAvatar";
-import BotAvatar from "@/components/BotAvatar";
+
+import { formSchema } from "./constants";
+import DeleteChatButton from "@/components/DeleteChatButton";
 
 const ConversationPage = () => {
-  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const router = useRouter();
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+  useEffect(() => {
+    // Load messages from local storage when component mounts
+    const storedMessages = localStorage.getItem("conversation messages");
+    if (storedMessages) {
+      setMessages(JSON.parse(storedMessages));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save messages to local storage whenever messages change
+    localStorage.setItem("conversation messages", JSON.stringify(messages));
+  }, [messages]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,8 +82,8 @@ const ConversationPage = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className="pb-10 relative">
+      <div className="flex items-center justify-between">
         <Heading
           title="Conversation"
           desc="Our most advanced conversational model."
@@ -75,6 +91,7 @@ const ConversationPage = () => {
           iconColor="text-indigo-500"
           bgColor="bg-indigo-500/10"
         />
+        {messages.length > 0 && <DeleteChatButton setChat={setMessages} />}
       </div>
 
       <div>
@@ -82,6 +99,7 @@ const ConversationPage = () => {
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="relative mt-10 mb-5"
+            autoComplete="off"
           >
             <FormField
               control={form.control}
@@ -93,7 +111,7 @@ const ConversationPage = () => {
                       {...field}
                       disabled={isLoading}
                       placeholder="Send a message"
-                      className="px-4 py-6 outline-none focus-visible:ring-0 focus-visible:ring-transparent rounded-md focus-visible:shadow-md focus-visible:border-transparent focus-visible:drop-shadow-sm dark:bg-[#161B2E] dark:border-0 dark:py-[1.6rem] dark:focus-within:ring-offset-0"
+                      className="px-4 pr-14 py-6 outline-none focus-visible:ring-0 focus-visible:ring-transparent rounded-md drop-shadow-md shadow-md border-transparent dark:bg-[#161B2E] dark:py-[1.6rem] dark:focus-within:ring-offset-0"
                     />
                   </FormControl>
                   <FormMessage />
@@ -127,12 +145,25 @@ const ConversationPage = () => {
             <div
               key={message.content}
               className={cn(
-                "w-full p-8 flex items-start gap-x-8 rounded-lg",
+                "w-full p-4 md:p-8 flex items-start gap-x-4 md:gap-x-8 rounded-lg relative",
                 message.role === "user" ? "" : "bg-muted dark:bg-[#161B2E]"
               )}
             >
               {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-              <p className="text-sm">{message.content}</p>
+              <p className="text-sm pt-1 pr-7 lg:pr-20">{message.content}</p>
+              <div className="w-full absolute right-2 lg:right-3 hover:bg-black/5">
+                {message.role !== "user"
+                  ? message.content && (
+                      <CopyButton
+                        text={message.content}
+                        tooltipText1="Copy Text"
+                        tooltipText2="Text Copied!"
+                        copyText1="Copy Text"
+                        copyText2="Copied!"
+                      />
+                    )
+                  : ""}
+              </div>
             </div>
           ))}
         </div>
