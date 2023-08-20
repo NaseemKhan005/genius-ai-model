@@ -13,6 +13,7 @@ import Heading from "@/components/Heading";
 import Empty from "@/components/Empty";
 import Loader from "@/components/Loader";
 import { Button } from "@/components/ui/button";
+import DeleteChatButton from "@/components/DeleteChatButton";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -23,20 +24,10 @@ import {
 } from "@/components/ui/form";
 
 import { formSchema } from "./constants";
-import DeleteChatButton from "@/components/DeleteChatButton";
 
 const VideoPage = () => {
   const router = useRouter();
-  type StoredVideo = { url: string };
-  const [video, setVideo] = useState<StoredVideo | null>(null);
-
-  useEffect(() => {
-    // Load video from local storage when component mounts
-    const storedVideo = localStorage.getItem("video_messages");
-    if (storedVideo) {
-      setVideo(JSON.parse(storedVideo));
-    }
-  }, []);
+  const [video, setVideo] = useState<string>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,16 +40,11 @@ const VideoPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setVideo(null);
+      setVideo(undefined);
 
       const response = await axios.post("/api/video", values);
 
-      const newVideo: StoredVideo = { url: response.data[0] };
-
-      setVideo(newVideo);
-
-      // Store the video object in localStorage
-      localStorage.setItem("video_messages", JSON.stringify(newVideo));
+      setVideo(response.data[0]);
 
       form.reset();
     } catch (error) {
@@ -78,7 +64,7 @@ const VideoPage = () => {
           iconColor="text-orange-500"
           bgColor="bg-orange-500/10"
         />
-        {video && <DeleteChatButton setChat={setVideo} />}
+        {!video && <DeleteChatButton setChat={setVideo} />}
       </div>
 
       <div>
@@ -126,7 +112,7 @@ const VideoPage = () => {
 
         {video && (
           <video
-            src={`${video}`}
+            src={video}
             controls
             className="w-full aspect-video mt-8 rounded-lg border bg-black"
           ></video>
