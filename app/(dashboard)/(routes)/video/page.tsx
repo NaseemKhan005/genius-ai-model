@@ -126,7 +126,7 @@ const VideoPage = () => {
 
         {video && (
           <video
-            src={video}
+            src={`${video}`}
             controls
             className="w-full aspect-video mt-8 rounded-lg border bg-black"
           ></video>
