@@ -133,8 +133,8 @@ const CodePage = () => {
       <div>
         {messages.length === 0 && !isLoading && (
           <Empty
-            image="/empty.png"
-            alt="Empty"
+            image="/code.png"
+            alt="Code"
             label="No code generated yet."
           />
         )}

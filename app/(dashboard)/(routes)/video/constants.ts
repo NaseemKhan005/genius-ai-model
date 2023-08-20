@@ -2,6 +2,6 @@ import * as z from "zod";
 
 export const formSchema = z.object({
   prompt: z.string().min(1, {
-    message: "Conversation Prompt is required to Communicate with AI Model.",
+    message: "Video Prompt is required to Generate Videos using AI.",
   }),
 });

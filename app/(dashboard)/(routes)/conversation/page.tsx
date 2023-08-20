@@ -5,7 +5,6 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { IoChatboxOutline } from "react-icons/io5";
 import { PiPaperPlaneRightFill } from "react-icons/pi";
-import { CgTrash } from "react-icons/cg";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -35,6 +34,7 @@ import DeleteChatButton from "@/components/DeleteChatButton";
 const ConversationPage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+
   useEffect(() => {
     // Load messages from local storage when component mounts
     const storedMessages = localStorage.getItem("conversation messages");
@@ -85,7 +85,7 @@ const ConversationPage = () => {
     <div className="pb-10 relative">
       <div className="flex items-center justify-between">
         <Heading
-          title="Conversation"
+          title="Chatbot"
           desc="Our most advanced conversational model."
           icon={<IoChatboxOutline />}
           iconColor="text-indigo-500"
@@ -134,14 +134,14 @@ const ConversationPage = () => {
       <div>
         {messages.length === 0 && !isLoading && (
           <Empty
-            image="/empty.png"
-            alt="Empty"
+            image="/chatbot.png"
+            alt="Coversation"
             label="No Converstaion started."
           />
         )}
         {isLoading && <Loader />}
         <div className="flex flex-col gap-2">
-          {messages.map((message) => (
+          {messages.map((message, index) => (
             <div
               key={message.content}
               className={cn(

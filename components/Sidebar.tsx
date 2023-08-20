@@ -36,6 +36,12 @@ const routes = [
     color: "text-rose-500",
   },
   {
+    name: "Code Generation",
+    icon: <IoCode />,
+    href: "/code",
+    color: "text-green-600",
+  },
+  {
     name: "Video Generation",
     icon: <IoVideocamOutline />,
     href: "/video",
@@ -46,12 +52,6 @@ const routes = [
     icon: <IoMusicalNotesOutline />,
     href: "/music",
     color: "text-emerald-500",
-  },
-  {
-    name: "Code Generation",
-    icon: <IoCode />,
-    href: "/code",
-    color: "text-green-600",
   },
   {
     name: "Settings",
