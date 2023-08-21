@@ -85,7 +85,7 @@ const ConversationPage = () => {
     <div className="pb-10 relative">
       <div className="flex items-center justify-between">
         <Heading
-          title="Chatbot"
+          title="Conversation"
           desc="Our most advanced conversational model."
           icon={<IoChatboxOutline />}
           iconColor="text-indigo-500"
@@ -134,7 +134,7 @@ const ConversationPage = () => {
       <div>
         {messages.length === 0 && !isLoading && (
           <Empty
-            image="/chatbot.png"
+            image="/Conversation.png"
             alt="Coversation"
             label="No Converstaion started."
           />

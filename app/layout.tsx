@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider as Theme } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
+import CrispChat from "@/components/CrispChat";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <CrispChat />
         <body className={cn("dark:bg-[#111827] ", inter.className)}>
           <Theme attribute="class" defaultTheme="system" enableSystem>
             {children}
