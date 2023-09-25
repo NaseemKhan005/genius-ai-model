@@ -39,21 +39,6 @@ const DashboardLoyout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </div>
       </div>
-
-      {/* <div className="fixed bottom-5 right-5 sm:right-10 bg-[#5f27cd] hover:bg-[#4e25a2] rounded-full active:scale-95 cursor-pointer pt-2 px-2 pb-[2px]">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <span className="text-3xl text-white">
-                <HiChatBubbleOvalLeftEllipsis />
-              </span>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>How can we help you?</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div> */}
     </div>
   );
 };
